@@ -1,8 +1,12 @@
 package com.example.corsplugindemo.Properties;
 
+import com.alibaba.nacos.api.config.ConfigType;
+import com.alibaba.nacos.api.config.annotation.NacosConfigurationProperties;
 import com.alibaba.nacos.api.config.annotation.NacosValue;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
 
 import java.util.List;
 
@@ -12,27 +16,21 @@ import java.util.List;
  */
 @Data
 @ConfigurationProperties(prefix = "web.cors")
+@NacosConfigurationProperties(prefix = "web.cors", dataId = "SpringSecurityDemo.application.properties", type = ConfigType.PROPERTIES, autoRefreshed = true)
 public class CorsProperties {
 
-//    @NacosValue("${web.cors.enabled}")
     private boolean enabled;
 
-//    @NacosValue("${web.cors.allowed-origins}")
     private List<String> allowedOrigins;
 
-//    @NacosValue("${web.cors.allowed-methods}")
     private List<String> allowedMethods;
 
-//    @NacosValue("${web.cors.allowed-headers}")
     private List<String> allowedHeaders;
 
-//    @NacosValue("${web.cors.allowed-headers}")
     private List<String> exposedHeaders;
 
-//    @NacosValue("${web.cors.allowed-credentials}")
     private boolean allowCredentials;
 
-//    @NacosValue("${web.cors.max-age}")
     private long maxAge;
 
 }

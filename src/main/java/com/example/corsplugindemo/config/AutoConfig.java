@@ -1,5 +1,6 @@
 package com.example.corsplugindemo.config;
 
+import com.alibaba.nacos.api.annotation.NacosProperties;
 import com.example.corsplugindemo.Properties.CorsProperties;
 import com.example.corsplugindemo.service.CorsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +20,14 @@ import org.springframework.context.annotation.Configuration;
 @ConditionalOnClass(CorsService.class)
 @ConditionalOnProperty(prefix = "web.cors", value = "enabled", matchIfMissing = true)
 public class AutoConfig {
+
     @Autowired
-    private CorsProperties cors;
+    private CorsProperties corsProperties;
 
     @Bean
     @ConditionalOnMissingBean(CorsService.class)
     public CorsService corsService(){
-        return new CorsService(cors);
+        return new CorsService(corsProperties);
     }
 
 }

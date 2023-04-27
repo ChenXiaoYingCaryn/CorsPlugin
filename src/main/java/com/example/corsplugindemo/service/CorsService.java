@@ -23,8 +23,10 @@ public class CorsService {
     }
 
     private CorsConfiguration buildConfig() {
+        System.out.println("go into build config");
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         corsConfiguration.setAllowedOrigins(corsProperties.getAllowedOrigins()); // 1允许域名使用
+        System.out.println("allowed origins " + corsConfiguration.getAllowedOrigins().toString());
         corsConfiguration.setAllowedHeaders(corsProperties.getAllowedHeaders()); // 2允许头
         corsConfiguration.setAllowedMethods(corsProperties.getAllowedMethods()); // 3允许方法（post、get等）
         corsConfiguration.setAllowCredentials(corsProperties.isAllowCredentials()); // 4允许cookies跨域
