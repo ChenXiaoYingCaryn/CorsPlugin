@@ -18,7 +18,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @EnableConfigurationProperties({CorsProperties.class})
 @ConditionalOnClass(CorsService.class)
-@ConditionalOnProperty(prefix = "web.cors", value = "enabled", matchIfMissing = true)
+@ConditionalOnProperty(prefix = "web.cors", value = "enabled", havingValue = "true")
 public class AutoConfig {
 
     @Autowired
