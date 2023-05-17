@@ -1,8 +1,7 @@
 package com.example.corsplugindemo.config;
 
-import com.alibaba.nacos.api.annotation.NacosProperties;
 import com.example.corsplugindemo.Properties.CorsProperties;
-import com.example.corsplugindemo.service.CorsService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -10,6 +9,8 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 /**
  * @author xiaoying
@@ -17,17 +18,29 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @EnableConfigurationProperties({CorsProperties.class})
-@ConditionalOnClass(CorsService.class)
+@ConditionalOnClass(AutoConfig.class)
 @ConditionalOnProperty(prefix = "web.cors", value = "enabled", havingValue = "true")
+@Slf4j
 public class AutoConfig {
 
     @Autowired
     private CorsProperties corsProperties;
 
+    public CorsConfiguration buildConfig() {
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
+        corsConfiguration.setAllowedOrigins(corsProperties.getAllowedOrigins()); // 1允许域名使用
+        corsConfiguration.setAllowedHeaders(corsProperties.getAllowedHeaders()); // 2允许头
+        corsConfiguration.setAllowedMethods(corsProperties.getAllowedMethods()); // 3允许方法（post、get等）
+        corsConfiguration.setAllowCredentials(corsProperties.isAllowCredentials()); // 4允许cookies跨域
+        return corsConfiguration;
+    }
+
     @Bean
-    @ConditionalOnMissingBean(CorsService.class)
-    public CorsService corsService(){
-        return new CorsService(corsProperties);
+    @ConditionalOnMissingBean()
+    public UrlBasedCorsConfigurationSource configurationSource() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", buildConfig());
+        return source;
     }
 
 }
