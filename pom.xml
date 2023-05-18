@@ -83,6 +83,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${project.parent.version}</version>
                 <configuration>
+                    <skip>true</skip>
                     <classifier>exec</classifier>
                 </configuration>
             </plugin>

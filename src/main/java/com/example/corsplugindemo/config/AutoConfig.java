@@ -12,15 +12,16 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import java.sql.SQLOutput;
+
 /**
  * @author xiaoying
  * @create 2023/4/20 16:18
  */
 @Configuration
-@EnableConfigurationProperties({CorsProperties.class})
+@EnableConfigurationProperties(CorsProperties.class)
 @ConditionalOnClass(AutoConfig.class)
-@ConditionalOnProperty(prefix = "web.cors", value = "enabled", havingValue = "true")
-@Slf4j
+@ConditionalOnProperty(prefix = "web.cors", value = "enabled", matchIfMissing = true)
 public class AutoConfig {
 
     @Autowired
@@ -36,7 +37,6 @@ public class AutoConfig {
     }
 
     @Bean
-    @ConditionalOnMissingBean()
     public UrlBasedCorsConfigurationSource configurationSource() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", buildConfig());

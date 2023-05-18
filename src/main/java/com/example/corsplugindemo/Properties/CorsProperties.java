@@ -2,11 +2,10 @@ package com.example.corsplugindemo.Properties;
 
 import com.alibaba.nacos.api.config.ConfigType;
 import com.alibaba.nacos.api.config.annotation.NacosConfigurationProperties;
-import com.alibaba.nacos.api.config.annotation.NacosValue;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Import;
 
 import java.util.List;
 
@@ -15,9 +14,11 @@ import java.util.List;
  * @create 2023/4/20 15:12
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @ConfigurationProperties(prefix = "web.cors")
 @NacosConfigurationProperties(prefix = "web.cors", dataId = "SpringSecurityDemo.application.properties", type = ConfigType.PROPERTIES, autoRefreshed = true)
-public class CorsProperties {
+public class CorsProperties{
 
     private boolean enabled;
 
@@ -26,8 +27,6 @@ public class CorsProperties {
     private List<String> allowedMethods;
 
     private List<String> allowedHeaders;
-
-    private List<String> exposedHeaders;
 
     private boolean allowCredentials;
 
